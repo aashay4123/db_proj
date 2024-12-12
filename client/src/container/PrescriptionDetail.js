@@ -1,5 +1,4 @@
 const React = require("react");
-const Header = require("../components/Header");
 const { getAction, postAction } = require("../utility/generalServices");
 const { useState, useEffect } = require("react");
 
@@ -33,7 +32,7 @@ const PrescriptionDetail = () => {
       });
     };
     fetchData();
-  }, []);
+  }, [prescriptionId]);
 
   return (
     <div className="App">

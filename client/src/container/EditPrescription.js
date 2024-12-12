@@ -28,7 +28,7 @@ const EditPrescription = () => {
     };
 
     fetchData();
-  }, []);
+  }, [prescriptionId]);
 
   const handleHealthDataChange = (e) => {
     const { name, value } = e.target;
@@ -47,10 +47,8 @@ const EditPrescription = () => {
       user: user._id,
     };
 
-    // const response = await postAction(
-    //   `/prescription/${prescriptionId}`,
-    //   data,
-    // );
+    const response = await postAction(`/pres/${prescriptionId}`, data);
+    console.log(response);
     toast.success("Data submitted successfully: ");
     window.location.href = "/prescriptions";
     //    window.location.reload();
@@ -64,7 +62,7 @@ const EditPrescription = () => {
           <div className="form-group">
             <label>BMI:</label>
             <input
-              type="text"
+              type="number"
               name="bmi"
               placeholder="Enter BMI"
               value={formData.bmi}
@@ -75,7 +73,7 @@ const EditPrescription = () => {
           <div className="form-group">
             <label>Blood Pressure:</label>
             <input
-              type="text"
+              type="number"
               name="bloodPressure"
               placeholder="Enter Blood Pressure"
               value={formData.bloodPressure}
@@ -86,7 +84,7 @@ const EditPrescription = () => {
           <div className="form-group">
             <label>Insulin:</label>
             <input
-              type="text"
+              type="number"
               name="insulin"
               placeholder="Enter Insulin Level"
               value={formData.insulin}
@@ -97,7 +95,7 @@ const EditPrescription = () => {
           <div className="form-group">
             <label>Glucose:</label>
             <input
-              type="text"
+              type="number"
               name="glucose"
               placeholder="Enter Glucose Level"
               value={formData.glucose}
@@ -108,7 +106,7 @@ const EditPrescription = () => {
           <div className="form-group">
             <label>Diabetes:</label>
             <input
-              type="text"
+              type="number"
               name="diabetes"
               placeholder="Enter Diabetes Info"
               value={formData.diabetes}

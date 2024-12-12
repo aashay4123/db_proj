@@ -11,7 +11,6 @@ const router = express.Router();
 
 router.post("/", createOne(Prescription));
 router.get("/:id", getOne(Prescription));
-router.post("/:id", updatePrescription);
 router.get("/", getAll(Prescription));
 
 router.delete("/:id", async (req, res) => {

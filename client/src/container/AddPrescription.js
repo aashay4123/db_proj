@@ -3,7 +3,6 @@ const { useState } = require("react");
 const { toast } = require("react-toastify");
 const { postAction } = require("../utility/generalServices");
 const { isAuth } = require("../utility/helper");
-const Header = require("../components/Header");
 
 const AddPrescription = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +17,7 @@ const AddPrescription = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: parseFloat(value),
     });
   };
   const handleHealthDataSubmit = async (e) => {

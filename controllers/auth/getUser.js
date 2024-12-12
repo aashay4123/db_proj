@@ -2,6 +2,7 @@ const { ObjectId } = require("mongoose").Types;
 const { catchAsync } = require("../../utils/handleFactory");
 const passport_jwt = require("passport-jwt");
 const Users = require("../../models/user");
+const Prescription = require("../../models/Prescription");
 const JwtStrategy = passport_jwt.Strategy;
 
 const getUser = catchAsync(async (req, res, next) => {
@@ -85,6 +86,28 @@ const Recommendations = catchAsync(async (req, res, next) => {
   res.json({ recommendations });
 });
 
+const updatePrescription = catchAsync(async (req, res, next) => {
+  try {
+    console.log("req.body", req.body);
+    const user = req.body.user;
+    delete req.body.user;
+    const doc = await Prescription.findByIdAndUpdate(new ObjectId(user), {
+      bmi: parseFloat(req.body.bmi),
+      bloodPressure: parseFloat(req.body.bloodPressure),
+      insulin: parseFloat(req.body.insulin),
+      glucose: parseFloat(req.body.glucose),
+      diabetes: parseFloat(req.body.diabetes),
+    });
+    res.status(201).json({
+      status: "success",
+      data: {
+        data: doc,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 const logout = (req, res) => {
   res.cookie("jwt", "loggedout", {
     expires: new Date(Date.now() + 2 * 1000),
@@ -129,4 +152,10 @@ const passportInit = (passport) => {
     }),
   );
 };
-module.exports = { getUser, logout, passportInit, Recommendations };
+module.exports = {
+  getUser,
+  logout,
+  passportInit,
+  Recommendations,
+  updatePrescription,
+};
