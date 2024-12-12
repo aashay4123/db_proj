@@ -1,5 +1,6 @@
 const AppError = require("./appError");
 const APIFeatures = require("./apiFeatures");
+const Prescription = require("../models/Prescription");
 
 const catchAsync = (fn) => {
   return (req, res, next) => {
@@ -7,11 +8,10 @@ const catchAsync = (fn) => {
   };
 };
 
-const getOne = (Model, popOptions) =>
+const getOne = (Model) =>
   catchAsync(async (req, res, next) => {
     let filter = { _id: req.params.id };
     let query = Model.find(filter);
-    if (popOptions) query = query.populate(popOptions);
     const doc = await query;
 
     if (!doc) {
@@ -59,8 +59,40 @@ const deleteOne = (Model) =>
 
 const createOne = (Model) => async (req, res, next) => {
   try {
-    const doc = await Model.create({ ...req.body, user: req.user._id });
+    const doc = await Model.create({ ...req.body });
 
+    res.status(201).json({
+      status: "success",
+      data: {
+        data: doc,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updatePrescription = () => async (req, res, next) => {
+  try {
+    consoel.log("req.body", req.body);
+    const user = req.body.user;
+    delete req.body.user;
+    const doc = await Prescription.findByIdAndUpdate(user, { ...req.body });
+    res.status(201).json({
+      status: "success",
+      data: {
+        data: doc,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getUserPrescription = () => async (req, res, next) => {
+  try {
+    const user = req.body.user;
+    delete req.body.user;
     res.status(201).json({
       status: "success",
       data: {
@@ -78,4 +110,5 @@ module.exports = {
   deleteOne,
   createOne,
   catchAsync,
+  updatePrescription,
 };

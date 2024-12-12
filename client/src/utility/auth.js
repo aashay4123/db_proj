@@ -1,21 +1,16 @@
-import { NextFunction } from "express";
-import {
-  isAuth,
-  setLocalStorage,
-  removeLocalStorage,
-} from "../../utility/helper";
+const { isAuth, setLocalStorage, removeLocalStorage } = require("./helper");
 
-import { getAction } from "../generalServices";
-import axiosInstance from "../../utility/axios_interceptor";
-import { toast } from "react-toastify";
+const { getAction } = require("./generalServices");
+const axiosInstance = require("./axios_interceptor");
+const { toast } = require("react-toastify");
 
-export const logout = (next) => {
+const logout = (next) => {
   removeLocalStorage("user");
   removeLocalStorage("expirationDate");
   getAction("/auth/logout", next);
 };
 
-export const auth = (callback, errCallback) => {
+const auth = (callback, errCallback) => {
   axiosInstance
     .get("/api/me")
     .then((response) => {
@@ -31,7 +26,7 @@ export const auth = (callback, errCallback) => {
     });
 };
 
-export const authCheckState = (callback, errCallback) => {
+const authCheckState = (callback, errCallback) => {
   const user = isAuth();
   if (user) {
     const expirationDate = new Date(
@@ -40,7 +35,7 @@ export const authCheckState = (callback, errCallback) => {
     if (expirationDate <= new Date()) {
       logout(() => {
         toast.error("Your session has been expired");
-        window.location.reload();
+        //    window.location.reload();
       });
     } else {
       if (callback) callback();
@@ -50,7 +45,7 @@ export const authCheckState = (callback, errCallback) => {
   }
 };
 
-export const onAuth = (callback) => {
+const onAuth = (callback) => {
   axiosInstance
     .get("/users/me")
     .then((response) => {
@@ -60,4 +55,11 @@ export const onAuth = (callback) => {
     .catch((err) => {
       toast.error("something went wrong");
     });
+};
+
+module.exports = {
+  logout,
+  auth,
+  authCheckState,
+  onAuth,
 };

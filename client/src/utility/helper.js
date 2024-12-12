@@ -44,7 +44,10 @@ export const isAuth = () => {
   if (window) {
     // console.log(localStorage.getItem("user"), getcookie("jwt"));
 
-    if (!!localStorage.getItem("user")) {
+    if (
+      !!localStorage.getItem("user") &&
+      localStorage.getItem("user") !== "undefined"
+    ) {
       return JSON.parse(localStorage.getItem("user") ?? "");
     } else {
       return false;
@@ -54,6 +57,7 @@ export const isAuth = () => {
 
 export const authenticate = (response, next) => {
   setLocalStorage("user", response.data.user);
+  setLocalStorage("token", response.data.token);
 
   const expirationDate = new Date(new Date().getTime() + 60 * 60 * 7 * 1000);
   setLocalStorage("expirationDate", expirationDate.toDateString());

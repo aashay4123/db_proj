@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const PrescriptionSchema = new mongoose.Schema(
   {
     insulin: {
       type: Number,
@@ -30,4 +30,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-module.exports = mongoose.model("Prescription", userSchema);
+module.exports = mongoose.model("Prescription", PrescriptionSchema);

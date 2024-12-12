@@ -3,6 +3,7 @@ import { isAuth } from "./utility/helper";
 import Home from "./container/HomePage";
 import PrescriptionList from "./container/PrescriptionList";
 import AddPrescription from "./container/AddPrescription";
+import EditPrescription from "./container/EditPrescription";
 import PrescriptionDetail from "./container/PrescriptionDetail";
 
 const PrivateRoute = ({ element }) => {
@@ -15,6 +16,7 @@ const routes = () => {
   const privateRoutes = [
     { path: "/prescriptions", element: <PrescriptionList /> },
     { path: "/addprescription", element: <AddPrescription /> },
+    { path: "/editprescription/:id", element: <EditPrescription /> },
     { path: "/prescription/:id", element: <PrescriptionDetail /> },
   ];
 

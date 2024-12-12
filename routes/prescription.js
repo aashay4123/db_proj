@@ -1,12 +1,17 @@
 const express = require("express");
-const { getOne, createOne, getAll } = require("../utils/handleFactory");
-const Prescription = require("../models/prescription");
-const { recommend } = require("../controllers/prescription");
+const {
+  getOne,
+  createOne,
+  getAll,
+  updatePrescription,
+} = require("../utils/handleFactory");
+const Prescription = require("../models/Prescription");
+const { Recommendations } = require("../controllers/auth/getUser");
 const router = express.Router();
 
-router.post("/recommend", recommend);
 router.post("/", createOne(Prescription));
 router.get("/:id", getOne(Prescription));
+router.post("/:id", updatePrescription);
 router.get("/", getAll(Prescription));
 
 router.delete("/:id", async (req, res) => {
