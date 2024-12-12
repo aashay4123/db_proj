@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { isAuth, authenticate } from "../utility/helper";
 import { toast } from "react-toastify";
-
+import { postAction } from "../utility/generalServices";
+import { useNavigate } from "react-router";
 const Home = () => {
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -11,7 +12,7 @@ const Home = () => {
     password: "",
     confirmPassword: "",
   });
-
+  const navigate = useNavigate();
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleLoginChange = (e) => {
@@ -33,23 +34,25 @@ const Home = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:4000/api/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      });
+      const response = await postAction("/signin", loginData);
 
-      if (response.ok) {
-        console.log("Login successful", response);
-        // authenticate(response);
-        toast.success("Login successful");
-      } else {
-        toast.error("Login failed. Please try again.");
-      }
+      authenticate(response);
+      navigate("/prescriptions");
+      toast.success("Login successful");
     } catch (error) {
-      toast.error("An error occurred: " + error.message);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        toast.error(
+          `Login failed: ${error.response.data.message || "Please try again."}`,
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        toast.error("No response received from server. Please try again.");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        toast.error("An error occurred: " + error.message);
+      }
     }
   };
 
@@ -212,6 +215,8 @@ const Home = () => {
         </header>
       </div>
     );
+  } else {
+    navigate("/prescriptions");
   }
 };
 

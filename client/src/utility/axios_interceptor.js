@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getLocalStorage } from "./helper";
 
-let url = `${import.meta.env.VITE_SERVER_URL}/api`;
+let url = `http://localhost:4000/api`;
 
 const axiosInstance = axios.create({
   baseURL: url,
