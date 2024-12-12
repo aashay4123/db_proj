@@ -1,8 +1,10 @@
 const express = require("express");
 const { getOne, createOne, getAll } = require("../utils/handleFactory");
 const Prescription = require("../models/prescription");
+const { recommend } = require("../controllers/prescription");
 const router = express.Router();
 
+router.post("/recommend", recommend);
 router.post("/", createOne(Prescription));
 router.get("/:id", getOne(Prescription));
 router.get("/", getAll(Prescription));
