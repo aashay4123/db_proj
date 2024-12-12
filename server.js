@@ -25,7 +25,7 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 app.use("/api", authRoute);
-app.use("/api/prescription", prescriptionRoute);
+app.use("cd ", prescriptionRoute);
 
 const port = process.env.PORT || 4000;
 
