@@ -1,6 +1,3 @@
-import { Query } from "mongoose";
-import { IAPIFeatures } from "../Interfaces/utils_interfaces";
-
 class APIFeatures {
   constructor(query, queryString) {
     this.query = query;
@@ -57,4 +54,4 @@ class APIFeatures {
     return this;
   }
 }
-export default APIFeatures;
+module.exports = APIFeatures;

@@ -1,5 +1,5 @@
-import AppError from "../utils/appError";
-import APIFeatures from "../utils/apiFeatures";
+const AppError = require("./appError");
+const APIFeatures = require("./apiFeatures");
 
 const catchAsync = (fn) => {
   return (req, res, next) => {
@@ -7,7 +7,7 @@ const catchAsync = (fn) => {
   };
 };
 
-export const getOne = (Model, popOptions) =>
+const getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     let filter = { _id: req.params.id };
     let query = Model.find(filter);
@@ -23,7 +23,7 @@ export const getOne = (Model, popOptions) =>
     });
   });
 
-export const getAll = (Model) =>
+const getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     let filter = {};
 
@@ -43,7 +43,7 @@ export const getAll = (Model) =>
     });
   });
 
-export const deleteOne = (Model) =>
+const deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
 
@@ -57,7 +57,7 @@ export const deleteOne = (Model) =>
     });
   });
 
-export const createOne = (Model) => async (req, res, next) => {
+const createOne = (Model) => async (req, res, next) => {
   try {
     const doc = await Model.create({ ...req.body, user: req.user._id });
 
@@ -70,4 +70,11 @@ export const createOne = (Model) => async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+module.exports = {
+  getOne,
+  getAll,
+  deleteOne,
+  createOne,
 };

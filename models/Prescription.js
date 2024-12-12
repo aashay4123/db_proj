@@ -3,18 +3,24 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema(
   {
     insulin: {
-      type: String,
-    },
-    glucose: {
-      type: String,
-    },
-    bloodPressure: {
-      type: String,
+      type: Number,
       required: true,
     },
-    diabetes: String,
+    glucose: {
+      type: Number,
+      required: true,
+    },
+    bloodPressure: {
+      type: Number,
+      required: true,
+    },
+    diabetes: {
+      type: Number,
+      required: true,
+    },
     bmi: {
-      type: String,
+      type: Number,
+      required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

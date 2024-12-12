@@ -11,9 +11,9 @@ exports.signup = (req, res) => {
         error: "Email is taken",
       });
     }
-    const user = new User({ name, email, password });
+    const newuser = new User({ name, email, password });
 
-    user.save((err, user) => {
+    newuser.save((err, user) => {
       if (err) {
         return res.status(401).json({
           error: "Error saving user in database. Try signup again",
