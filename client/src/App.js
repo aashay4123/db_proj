@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import './App.css';
+import { ReactComponent as EditIcon } from './assets/pencil.svg';
+import { ReactComponent as DeleteIcon} from './assets/bin.svg';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSigningUp, setIsSigningUp] = useState(false);
+  const [isRecommendationScreen, setIsRecommendationScreen] = useState(false);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [signUpData, setSignUpData] = useState({ email: '', password: '', confirmPassword: '' });
   const [formData, setFormData] = useState({
@@ -33,7 +36,15 @@ function App() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://your-backend-api.com/login', {
+      // const mockEmail = "test@example.com";
+      // const mockPassword = "password123";
+    
+      // if (loginData.email === mockEmail && loginData.password === mockPassword) {
+      //   setIsLoggedIn(true);
+      // } else {
+      //   alert("Invalid credentials. Please try again.");
+      // }
+      const response = await fetch('http://localhost:4000/api/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,7 +70,7 @@ function App() {
     }
 
     try {
-      const response = await fetch('https://your-backend-api.com/signup', {
+      const response = await fetch('http://localhost:3000/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -96,10 +107,15 @@ function App() {
         },
         body: JSON.stringify(formData),
       });
+      // setTimeout(() => {
+      //   alert('Simulated data submission successful.');
+      //   setIsRecommendationScreen(true);
+      // }, 1000); 
 
       if (response.ok) {
         const data = await response.json();
         alert('Data submitted successfully: ' + JSON.stringify(data));
+        setIsRecommendationScreen(true);
       } else {
         alert('Error submitting data');
       }
@@ -191,10 +207,34 @@ function App() {
     );
   }
 
+  if (isRecommendationScreen) {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <h1>Health Recommendations</h1>
+          <div className="recommendation-container">
+            <div className="recommendation-box">
+              <h2>Previous Health Recommendations</h2>
+              <p>Your previous health data and recommendations will appear here.</p>
+              <div className="edit-icon-container">
+                <EditIcon style={{ width: '24px', height: '24px', cursor: 'pointer', marginRight: '10px' }} />
+                <DeleteIcon style={{ width: '24px', height: '24px', cursor: 'pointer' }} />
+              </div>
+            </div>
+            <div className="recommendation-box">
+              <h2>Present Health Recommendations</h2>
+              <p>Your current health data and recommendations will appear here.</p>
+            </div>
+          </div>
+        </header>
+      </div>
+    );
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <h1>HealthCare Recommendations</h1>
+        <h1>Enter your health data</h1>
         <form onSubmit={handleHealthDataSubmit}>
           <div>
             <label>BMI:</label>
