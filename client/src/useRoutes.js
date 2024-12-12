@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { isAuth } from "./utility/helper";
-import Home from "./container/Home";
+import Home from "./container/HomePage";
 import PrescriptionList from "./container/PrescriptionList";
 import AddPrescription from "./container/AddPrescription";
 import PrescriptionDetail from "./container/PrescriptionDetail";
