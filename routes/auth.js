@@ -13,10 +13,12 @@ const { signup } = require("../controllers/auth/signup");
 const { signin } = require("../controllers/auth/signin");
 const { forgotPassword } = require("../controllers/auth/forgot");
 const { resetPassword } = require("../controllers/auth/reset");
+const { getUser, logout } = require("../controllers/auth/getUser");
 
 router.post("/signup", userSignupValidator, runValidation, signup);
 router.post("/signin", userSigninValidator, runValidation, signin);
-
+router.get("/me", getUser);
+router.get("/logout", logout);
 //forgot reset routes
 router.put(
   "/forgot-password",

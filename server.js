@@ -12,7 +12,12 @@ const prescriptionRoute = require("./routes/prescription");
 const app = express();
 
 const mongo_url = process.env.MONGO_URL;
-
+app.use(
+  cors({
+    credentials: true,
+    origin: [process.env.REACT_APP_BASE_URL],
+  }),
+);
 mongoose
   .connect(mongo_url)
   .then(() => console.log("connected"))
@@ -23,9 +28,14 @@ mongoose.Promise = global.Promise;
 app.use(morgan("dev"));
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
-
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  }),
+);
 app.use("/api", authRoute);
-app.use("cd ", prescriptionRoute);
+app.use("/api/prescription ", prescriptionRoute);
 
 const port = process.env.PORT || 4000;
 
